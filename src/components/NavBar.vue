@@ -19,7 +19,7 @@
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
               <router-link
-                v-for="item in navigation"
+                v-for="item in filteredNavigation"
                 :key="item.name"
                 :to="item.href"
                 :class="[isActiveRoute(item) ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'rounded-md px-3 py-2 text-sm font-medium']"
@@ -30,14 +30,16 @@
             </div>
           </div>
         </div>
-        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+        <div v-if="userStore.isLoggedIn()" class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
           <button type="button" class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
             <span class="sr-only">View notifications</span>
             <BellIcon class="h-6 w-6" aria-hidden="true" />
           </button>
 
           <!-- Profile dropdown -->
-          <Menu as="div" class="relative ml-3">
+          <Menu  as="div" class="relative ml-3">
+            
             <div>
               <MenuButton class="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <span class="sr-only">Open user menu</span>
@@ -48,25 +50,40 @@
               <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
                   <router-link to="profile" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
-                    Votre Profil
+                    Votre Profil : {{ userStore.user.name }}
                   </router-link>
                 </MenuItem>
 
                 <MenuItem v-slot="{ active }">
-                  <router-link to="logout" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+                  <div @click="logout()" :class="[active ? 'bg-gray-100 cursor-pointer' : '', 'block px-4 py-2 text-sm text-gray-700']">
                     Déconnexion
-                  </router-link>
+                  </div>
                 </MenuItem>
               </MenuItems>
             </transition>
           </Menu>
+
+    
+        </div>
+        <div v-else>
+          <router-link to="login" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Connexion</router-link>
+          <router-link to="register" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Inscription</router-link>
         </div>
       </div>
     </div>
 
     <DisclosurePanel class="sm:hidden">
       <div class="space-y-1 px-2 pb-3 pt-2">
-        <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</DisclosureButton>
+        <DisclosureButton 
+          v-for="item in filteredNavigation" 
+          :key="item.name" 
+          as="a" 
+          :href="item.href" 
+          :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']" 
+          :aria-current="item.current ? 'page' : undefined"
+        >
+            {{ item.name }}
+        </DisclosureButton>
       </div>
     </DisclosurePanel>
   </Disclosure>
@@ -78,14 +95,29 @@ import { Bars3Icon, BellIcon, XMarkIcon, Battery0Icon, Battery50Icon, Battery100
 import { RouterLink, RouterView } from 'vue-router'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user.js';
+import { useRouter } from 'vue-router';
 
 const navigation = [
-  { name: 'Accueil', href: { name: 'home' }},
-  { name: 'Vos Recherches', href: { name: 'search' }},
-  { name: 'A Propos', href: { name: 'about' }},
+  { name: 'Accueil', href: { name: 'home' }, logged: false},
+  { name: 'Vos Recherches', href: { name: 'search' }, logged: true},
+  { name: 'A Propos', href: { name: 'about' }, logged: false}
 ]
 const open = ref(false)
-
+const userStore = useUserStore();
+const router = useRouter();
 const route = useRoute()
+
+const filteredNavigation = computed(() => {
+  console.log(filteredNavigation)
+  console.log(navigation.filter(item => !item.logged || (item.logged && userStore.isLoggedIn())))
+  return navigation.filter(item => !item.logged || (item.logged && userStore.isLoggedIn()));
+});
+
 const isActiveRoute = (item) => computed(() => route.name === item.href.name).value
+
+function logout() {
+  userStore.logOut()
+  router.push('home');
+}
 </script>

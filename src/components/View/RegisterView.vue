@@ -42,6 +42,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { BACK_URL } from '@/constants.js';
 import { useUserStore } from '@/stores/user.js';
+import { useRouter } from 'vue-router';
 
 const email =  ref('');
 const password = ref('');
@@ -49,6 +50,7 @@ const confirm_password = ref('');
 const name = ref('');
 const userStore = useUserStore();
 const error = ref('');
+const router = useRouter();
 
 function validate(){
     if (name.value === '' || email.value === '' || password.value === '' || confirm_password.value === '') {
@@ -76,7 +78,9 @@ function register() {
         confirm_password: confirm_password.value
     })
     .then(res => {
-        console.log(res.data)
+        userStore.token = res.data.access_token;
+        userStore.user = res.data.user;
+        router.push('home');
     })
     .catch(err => {
         if (err.response && err.response.data && err.response.data.message) {
