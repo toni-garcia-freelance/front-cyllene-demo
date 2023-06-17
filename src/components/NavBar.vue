@@ -100,7 +100,6 @@ import { useRouter } from 'vue-router';
 
 const navigation = [
   { name: 'Accueil', href: { name: 'home' }, logged: false},
-  { name: 'Vos Recherches', href: { name: 'search' }, logged: true},
   { name: 'A Propos', href: { name: 'about' }, logged: false}
 ]
 const open = ref(false)

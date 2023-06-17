@@ -86,6 +86,8 @@ function search(){
     axios.get(BACK_URL+url)
     .then(res => {
         stationsChargingStore.stationsCharging = res.data
+        stationsChargingStore.searchCity =  citySelected.value
+        stationsChargingStore.searchZip = zipSelected.value
         router.push('stations-charging');
     })
     .catch(err => {
