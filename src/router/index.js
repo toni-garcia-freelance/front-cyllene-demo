@@ -37,6 +37,11 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: () => import('../components/View/ProfileView.vue')
+    },
+    {
+      path: '/stations-charging',
+      name: 'stations-charging',
+      component: () => import('../components/View/StationsChargingView.vue')
     }
   ]
 })
