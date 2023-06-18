@@ -1,14 +1,11 @@
-# front-demo
+# Application démo pour un entretien au sein de l'entreprise Cyllene
 
-This template should help get you started developing with Vue 3 in Vite.
+Application démo réalisée par Toni GARCIA pour présenter une application minimal avec VueJS3 et Laravel (notamment avec Nova pour l'administration).
+Cette application a été réalisée en 9h et ne comporte donc qu'une simple recherche de station de borne de charge par code postal et ville. 
+Avec l'affichage des stations en fonction de la recherche, le détail d'une station.
+Et également la possibilité de créer un compte, se connecter et se déconnecter.
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Pour la partie backend avec l'administration avec Nova voici l'url: https://github.com/toni-garcia-freelance/back-cyllene-demo
 
 ## Project Setup
 
@@ -16,14 +13,12 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 npm install
 ```
 
+Change the value of your back url in src/constants.js 
+
 ### Compile and Hot-Reload for Development
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
 
-```sh
-npm run build
-```
