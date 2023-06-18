@@ -6,6 +6,7 @@ Avec l'affichage des stations en fonction de la recherche, le détail d'une stat
 Et également la possibilité de créer un compte, se connecter et se déconnecter.
 
 Pour la partie backend avec l'administration avec Nova voici l'url: https://github.com/toni-garcia-freelance/back-cyllene-demo
+Voici une vidéo de démonstation de l'app en Front : https://user-images.githubusercontent.com/119334403/246668594-93e8cf9c-c726-4fae-95f7-e895f3b711ce.mp4
 
 ## Project Setup
 
